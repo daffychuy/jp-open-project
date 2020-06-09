@@ -8,6 +8,9 @@ That's the main intuition behind the project idea.
 ## Who is this for?
 Anyone who would use a dictionary for Japanese
 
+## Reporting an issue or a suggestion
+Please go to the gitlab repo (On the bottom of this README) issue tab to submit an issue or suggestion
+
 ## License
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
 
