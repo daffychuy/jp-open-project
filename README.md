@@ -9,4 +9,8 @@ That's the main intuition behind the project idea.
 Anyone who would use a dictionary for Japanese
 
 ## License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+
+## GitLab Repo (You can find both milestones and issues from gitlab)
+https://gitlab.com/daffychuy/jp-open-project
+
