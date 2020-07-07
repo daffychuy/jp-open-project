@@ -1,0 +1,24 @@
+NOTICE:  drop cascades to 23 other objects
+DETAIL:  drop cascades to table jmdict_id
+drop cascades to table language
+drop cascades to table jlpt_level
+drop cascades to table kanji
+drop cascades to table kana
+drop cascades to table reading_mappings
+drop cascades to table sense
+drop cascades to table partsofspeech
+drop cascades to table antonym
+drop cascades to table field
+drop cascades to table misc
+drop cascades to table info
+drop cascades to table dialect
+drop cascades to table languagesource
+drop cascades to table meaning
+drop cascades to table related_kanji
+drop cascades to table related_kana
+drop cascades to table related_to
+drop cascades to table individual_kanji
+drop cascades to table kun_reading
+drop cascades to table on_reading
+drop cascades to table kanji_meaning
+drop cascades to table name_reading

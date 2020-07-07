@@ -8,6 +8,7 @@ if [ -f "$config" ]
         . $config
         
         {
+            PGPASSWORD=${password} psql -U ${username} -p ${port} -h ${hostname} ${database} < ./clear.sql
             PGPASSWORD=${password} psql -U ${username} -p ${port} -h ${hostname} ${database} < ./JMDict_id.sql
             PGPASSWORD=${password} psql -U ${username} -p ${port} -h ${hostname} ${database} < ./language.sql
             PGPASSWORD=${password} psql -U ${username} -p ${port} -h ${hostname} ${database} < ./JLPT_Level.sql
@@ -32,15 +33,15 @@ if [ -f "$config" ]
             PGPASSWORD=${password} psql -U ${username} -p ${port} -h ${hostname} ${database} < ./kanji_meaning.sql
             PGPASSWORD=${password} psql -U ${username} -p ${port} -h ${hostname} ${database} < ./name_reading.sql
         } > /dev/null 2> "$logfile"; [ -s "$logfile" ] || rm -f "$logfile"
-            if [ -f "$logfile" ]
-            then
-              if grep ERROR "$logfile"
-                then
-                  echo "An error may have occurred while creating tables, please check $logfile for detailed errors"
-                  echo "If you believe this is an error on our side, delete the log file then proceed once again"
-              else
-                echo "Database created successfully"
-              fi
+          if [ -f "$logfile" ]
+          then
+            if grep ERROR "$logfile"
+              then
+                echo "An error may have occurred while creating tables, please check $logfile for detailed errors"
+                echo "If you believe this is an error on our side, delete the log file then proceed once again"
+            else
+              echo "Database created successfully"
+            fi
         fi
     else
         echo "$config not found."
