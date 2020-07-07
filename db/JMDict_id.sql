@@ -1,5 +1,4 @@
 CREATE TABLE IF NOT EXISTS JMDict_id (
-    id serial NOT NULL,
-    word varchar(50),
+    id int NOT NULL,
     PRIMARY KEY (id)
 )

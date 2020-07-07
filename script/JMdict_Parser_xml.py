@@ -4,7 +4,7 @@ import copy
 import json
 from tqdm import tqdm
 
-FILE = '../JMdict_e'
+FILE = 'JMdict_e'
 TEMPLATE = {
     "id": 0,
     "kanji": [],
@@ -114,9 +114,11 @@ def parse_sense(elements, new):
     sense = copy.deepcopy(SENSE_TEMPLATE)
     for ele in elements:
         if ele.tag.lower() == "stagr":
-            sense['appliesToKana'] = ele.text
+            # TODO: Fix this part, where it needs to be a list
+            sense['appliesToKana'].append(ele.text)
         elif ele.tag.lower() == "stagk":
-            sense['appliesToKanji'] = ele.text
+            # TODO: Fix this part, where it needs to be a list
+            sense['appliesToKanji'].append(ele.text)
         elif ele.tag.lower() == "pos":
             sense['partsOfSpeech'].append(ele.text)
         elif ele.tag.lower() == "xref":

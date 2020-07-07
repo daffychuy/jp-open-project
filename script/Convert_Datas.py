@@ -27,7 +27,7 @@ def Parse_JMdict():
                     for kanji in data['kanji']:
                         if kanji == k:
                             JAP.append({"kanji": k, "kana": i['text'], "kanji_common": kanji['common'], "kana_common": i['common']})
-        new_data.setdefault("japanese", JAP)
+        new_data.setdefault("Japanese", JAP)
         new_data.setdefault("sense", data['sense'])
         NEW.append(new_data)
 
