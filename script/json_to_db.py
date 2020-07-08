@@ -2,8 +2,11 @@ import json
 import copy
 import psycopg2
 import sys
-from tqdm import tqdm
+# from tqdm import tqdm
+import curses
+import time
 
+stdscr = curses.initscr()
 JMDICT = ''
 try:
     conn = None
@@ -32,10 +35,12 @@ def INSERT_Language():
     return
 
 def JMDict_db():
+    
+    start_time = time.time()
     FAILED = []
     inserted = 1
     file_name = "Finalize_JMdict_e.json"
-    for data in tqdm(iter(Load_JSON(file_name))):
+    for data in iter(Load_JSON(file_name)):
         KANJI_MAPPING, KANA_MAPPING = {}, {}
         sense_ids = []
         # * Getting JMDict id into the database first
@@ -45,8 +50,10 @@ def JMDict_db():
         cur.execute(INSERT_ID, (JMDict_id,))
 
         # Logging purpose
-        sys.stdout.flush()
-        sys.stdout.write(f" Inserting data # {inserted} with JMdict_id: {JMDict_id} --- Failed: \033[91m {len(FAILED)} \033[0m")
+        stdscr.addstr(0, 0, f"Time elapsed: {round(time.time() - start_time, 2)} seconds")
+        stdscr.addstr(1, 0, f"Inserting data # {inserted} with JMdict_id: {JMDict_id} --- Failed: {len(FAILED)}")
+        stdscr.addstr(2, 0, f"Failed: {FAILED}")
+        stdscr.refresh()
 
         # * Need to insert sense to allow relation between kanaji, kana and sense
         Senses = data['sense']
@@ -127,7 +134,7 @@ def JMDict_db():
                 INSERT_RELATED_TO = f"INSERT INTO Related_To (sense_id, slug) VALUES (%s, %s)"
                 cur.execute(INSERT_RELATED_TO, (sense_id, related))
             for antonym in Senses[s]['antonym']:
-                INSERT_ANTONYM = f"INSERT INTO antonym (sense_id, antonym) VALUES (%s %s)"
+                INSERT_ANTONYM = f"INSERT INTO antonym (sense_id, antonym) VALUES (%s, %s)"
                 cur.execute(INSERT_ANTONYM, (sense_id, antonym))
             for field in Senses[s]['field']:
                 INSERT_FIELD = f"INSERT INTO field (sense_id, category) VALUES (%s, %s)"
@@ -142,7 +149,7 @@ def JMDict_db():
                 INSERT_DIALECT = f"INSERT INTO dialect (sense_id, dialect) VALUES (%s, %s)"
                 cur.execute(INSERT_DIALECT, (sense_id, dialect))
             for source in Senses[s]['languageSource']:
-                INSERT_LANG = f"INSERT INTO languageSource (sense_id, lang, wasei, text) VALUES (%s, %s, %s, %s)'"
+                INSERT_LANG = f"INSERT INTO languageSource (sense_id, lang, wasei, text) VALUES (%s, %s, %s, %s)"
                 cur.execute(INSERT_LANG, (sense_id, source['lang'], source['wasei'], source['text']))
             for gloss in Senses[s]['gloss']:
                 INSERT_MEANING = f"INSERT INTO meaning (sense_id, meaning, lang_id, type) VALUES (%s, %s, %s, %s)"
@@ -153,11 +160,19 @@ def JMDict_db():
 
 
 if __name__ == "__main__":
-    INSERT_Language()
-    JMDict_db()
+    
+    try:
+        INSERT_Language()
+        curses.noecho()
+        curses.cbreak()
+        JMDict_db()
     # cur.execute("INSERT INTO JMDict_id (id) VALUES (1)")
     # cur.execute("SELECT * FROM JMDict_id")
     # print(cur.fetchall())
     # print(cur.itersize)
-    cur.close()
-    conn.close()
+    finally:
+        cur.close()
+        conn.close()
+        curses.echo()
+        curses.nocbreak()
+        curses.endwin()

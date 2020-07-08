@@ -22,6 +22,8 @@ def Parse_JMdict():
                     JAP.append({"kanji": None, "kana": reading, "kanji_common": None, "kana_common": i['common']})
                 for kanji in data['kanji']:
                     JAP.append({"kanji": kanji['text'], "kana": reading, "kanji_common": kanji['common'], "kana_common": i['common']})
+            elif i['appliesToKanji'] == []:
+                JAP.append({"kanji": None, "kana": i['text'], "kanji_common": None, "kana_common": i['common']})
             else:
                 for k in i['appliesToKanji']:
                     for kanji in data['kanji']:
