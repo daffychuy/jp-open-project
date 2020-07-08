@@ -83,6 +83,7 @@ def parse_rele(elements, new):
         elif ele.tag.lower() == "reb":
             # The kana itself
             kana['text'] = ele.text
+            
             # ! Unfortunately there are some other characters we can't really check
             # if (character_checker(ele.text)):
             #     kana['text'] = ele.text
@@ -100,8 +101,10 @@ def parse_rele(elements, new):
     # If nothing is in the list, it can apply to every kanji
     if not kana['appliesToKanji']:
         kana['appliesToKanji'] = ['*']
-    if not doNotAdd:
-        new["kana"].append(kana)
+    # if not doNotAdd:
+    if doNotAdd:
+        kana['appliesToKanji'] = []
+    new["kana"].append(kana)
 
 
 def parse_ent_seq(element, new):
