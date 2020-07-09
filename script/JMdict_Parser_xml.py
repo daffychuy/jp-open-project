@@ -102,6 +102,7 @@ def parse_rele(elements, new):
     if not kana['appliesToKanji']:
         kana['appliesToKanji'] = ['*']
     # if not doNotAdd:
+    # We now want to add the word in except since no corresponding kanji, we set to none
     if doNotAdd:
         kana['appliesToKanji'] = []
     new["kana"].append(kana)
