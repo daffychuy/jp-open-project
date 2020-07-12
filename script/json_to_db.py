@@ -35,6 +35,23 @@ def INSERT_Language():
     conn.commit()
     return
 
+def INSERT_JLPT():
+    """
+        Level 5 : 5
+        Level 4 : 4
+        Level 3 : 3
+        Level 2 : 2
+        Level 1 : 1
+    """
+    cur.execute("INSERT INTO JLPT_level (level) VALUES (1)")
+    cur.execute("INSERT INTO JLPT_level (level) VALUES (2)")
+    cur.execute("INSERT INTO JLPT_level (level) VALUES (3)")
+    cur.execute("INSERT INTO JLPT_level (level) VALUES (4)")
+    cur.execute("INSERT INTO JLPT_level (level) VALUES (5)")
+    conn.commit()
+    return 
+
+
 def JMDict_db():
 
     with open("Log", "w") as f:
@@ -165,18 +182,50 @@ def JMDict_db():
             conn.commit()
             inserted += 1
 
+def Kanjidic():
+    with open("Log", "w") as f:
+        start_time = time.time()
+        FAILED = []
+        inserted = 1
+        file_name = 'Kanjidic.json'
+        for data in iter(Load_JSON(file_name)['words']):
+            stdscr.refresh()
+            stdscr.addstr(0, 0, f"Time elapsed: {round(time.time() - start_time, 2)} seconds")
+            stdscr.addstr(1, 0, f"Inserting data # {inserted} with Kanji: {data['kanji']} --- Failed: {len(FAILED)}")
+            stdscr.addstr(2, 0, f"Failed: {FAILED}")
+
+            now = datetime.now()
+
+            current_time = now.strftime("%H:%M:%S")
+            f.write(f"[{current_time}] Inserting data # {inserted} with Kanji: {data['kanji']} FAILED: {FAILED}\n")
+
+            INSERT_KANJI = f"INSERT INTO individual_kanji (kanji, jlpt_lvl, frequency, grade_learnt, strokes) VALUES (%s, %s, %s, %s, %s) returning kanji"
+            cur.execute(INSERT_KANJI, (data['kanji'], data['jlpt'], data['freq'], data['grade'], data['strokes']))
+            kanji = cur.fetchall()[0][0]
+            for kun_reading in data['reading']['kun']:
+                INSERT_KUN = f"INSERT INTO kun_reading (reading, kanji) VALUES (%s, %s)"
+                cur.execute(INSERT_KUN, (kun_reading, kanji))
+            for on_reading in data['reading']['on']:
+                INSERT_ON = f"INSERT INTO on_reading (reading, kanji) VALUES (%s, %s)"
+                cur.execute(INSERT_ON, (on_reading, kanji))
+            for meaning in data['meaning']:
+                INSERT_MEANING = f"INSERT INTO kanji_meaning (meaning, kanji, lang_id) VALUES (%s, %s, %s)"
+                cur.execute(INSERT_MEANING, (meaning, kanji, 1))
+            for name_reading in data['name_reading']:
+                INSERT_NAME = f"INSERT INTO name_reading (reading, kanji) VALUES (%s, %s)"
+                cur.execute(INSERT_NAME, (name_reading, kanji))
+            conn.commit()
+            inserted += 1
 
 if __name__ == "__main__":
     
     try:
-        INSERT_Language()
+        # INSERT_Language()
+        INSERT_JLPT()
         curses.noecho()
         curses.cbreak()
-        JMDict_db()
-    # cur.execute("INSERT INTO JMDict_id (id) VALUES (1)")
-    # cur.execute("SELECT * FROM JMDict_id")
-    # print(cur.fetchall())
-    # print(cur.itersize)
+        Kanjidic()
+        # JMDict_db()
     finally:
         cur.close()
         conn.close()
