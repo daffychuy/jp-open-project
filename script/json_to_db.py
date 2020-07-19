@@ -11,8 +11,8 @@ stdscr = curses.initscr()
 JMDICT = ''
 try:
     conn = None
-    conn = psycopg2.connect(database ="daffy-jp", user = "daffy", 
-                        password = "daffychu0710", host = "daffychuy.io",  
+    conn = psycopg2.connect(database ="", user = "", 
+                        password = "", host = "",  
                         port = "5432")
     cur = conn.cursor()
     print("Connected to database")
