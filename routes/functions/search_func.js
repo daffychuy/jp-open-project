@@ -6,15 +6,30 @@ exports.search = [
     async function (req, res, next) {
         let query = req.query;
         let keyword = validator.escape(query.keyword);
-        console.log(keyword)
+        console.log("Keyword: " + keyword);
+        console.log("isRomaji: " + jp.isRomaji(keyword));
+        console.log("isJapanese: " + jp.isJapanese(keyword));
+        console.log("isMixed: " + jp.isMixed(keyword));
+        console.log("Strip Okurigana: " + jp.stripOkurigana(keyword));
+        console.log("Tokenize: " + jp.tokenize(keyword));
+        console.log("toRomaji: " + jp.toRomaji(keyword));
         if (jp.isJapanese(keyword)) {
             // Gotta split accordingly
+            let split_char = jp.tokenize(keyword)
         } else {
             // Need to process the word, and convert into japanaese character first
             let converted_keyword = jp.toHiragana(keyword)
 
         }
-        res.status(200).send({"RESULT": jp.isJapanese(keyword)})
+        res.status(200).send({
+            "Keyword": keyword,
+            "isRomaji": jp.isRomaji(keyword),
+            "isJapanese": jp.isJapanese(keyword),
+            "isMixed": jp.isMixed(keyword),
+            "Strip Okurigana": jp.stripOkurigana(keyword),
+            "Stripped Letters": jp.tokenize(keyword),
+            "toRomaji": jp.toRomaji(keyword)
+        });
     }
 ]
 
