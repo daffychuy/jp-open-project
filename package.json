@@ -2,7 +2,13 @@
   "name": "gitlab-jp-open-project",
   "version": "0.0.0",
   "private": true,
-  "jshintConfig": { "esversion": 8, "strict": "implied", "devel": true, "node": true, "globals": {} },
+  "jshintConfig": {
+    "esversion": 8,
+    "strict": "implied",
+    "devel": true,
+    "node": true,
+    "globals": {}
+  },
   "scripts": {
     "start": "node ./bin/www"
   },
@@ -15,6 +21,8 @@
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
     "morgan": "^1.9.1",
+    "pg": "^8.3.3",
+    "utf8": "^3.0.0",
     "validator": "^13.1.1",
     "wanakana": "^4.0.2"
   },
