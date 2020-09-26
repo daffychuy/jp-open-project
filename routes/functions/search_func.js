@@ -37,7 +37,6 @@ exports.search = [
                         [pool.query(query, [hiragana])]
                     ).then (result => {
                         let rows = result[0].rows;
-                        console.log(rows);
                         
                         if (rows.length == 0) {
                             // We need to perform another query search with front and back that includes this word
@@ -56,11 +55,14 @@ exports.search = [
                                     try {
                                         let mapping = mapping_res[0].rows[0];
                                         console.log(mapping)
-                                        if (mapping.length > 0) {
+                                        if (mapping) {
                                             let kanji_query = `SELECT * FROM kanji WHERE id = $1`;
                                             Promise.all(
                                                 [pool.query(kanji_query, [mapping.kanji_id])]
-                                            )
+                                            ).then (result2 => {
+                                                let rows2 = result2[0].rows;
+                                                console.log(rows2);
+                                            });
                                         }
                                         
                                     } catch (error) {
