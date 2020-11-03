@@ -14,6 +14,6 @@ Please go to the gitlab repo (On the bottom of this README) issue tab to submit 
 ## License
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
 
-#### GitLab Repo (You can find both milestones and issues from gitlab)
+#### GitLab Repo (You can find both milestones and issues on gitlab)
 https://gitlab.com/daffychuy/jp-open-project
 
