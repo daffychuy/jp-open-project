@@ -1,33 +1,50 @@
 {
-  "name": "gitlab-jp-open-project",
-  "version": "0.0.0",
-  "private": true,
-  "jshintConfig": {
-    "esversion": 8,
-    "strict": "implied",
-    "devel": true,
-    "node": true,
-    "globals": {}
-  },
+  "name": "jp-open-project",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
   "scripts": {
-    "start": "node ./bin/www"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daffychuy/jp-open-project.git"
+  },
+  "author": "daffychuy",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/daffychuy/jp-open-project/issues"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,css,json,md}": [
+      "prettier --write"
+    ],
+    "*.js": [
+      "eslint --fix"
+    ]
+  },
+  "homepage": "https://github.com/daffychuy/jp-open-project#readme",
   "dependencies": {
-    "bluebird": "^3.7.2",
-    "cookie-parser": "~1.4.4",
-    "debug": "~2.6.9",
-    "dotenv": "^8.2.0",
-    "express": "~4.16.1",
-    "http-errors": "~1.6.3",
-    "jade": "~1.11.0",
-    "morgan": "^1.9.1",
-    "pg": "^8.3.3",
-    "utf8": "^3.0.0",
-    "validator": "^13.1.1",
+    "cookie-parser": "^1.4.5",
+    "express": "^4.17.1",
+    "http-errors": "^1.8.0",
+    "morgan": "^1.10.0",
     "wanakana": "^4.0.2"
   },
   "devDependencies": {
-    "jest": "^26.1.0",
-    "nodemon": "^2.0.4"
+    "eslint": "^7.16.0",
+    "eslint-config-standard": "^16.0.2",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-react": "^7.22.0",
+    "lint-staged": "^10.5.3",
+    "nodemon": "^2.0.6",
+    "prettier": "^2.2.1"
   }
 }

@@ -1,0 +1,17 @@
+version: '2'
+
+services:
+  mongodb:
+    image: 'docker.io/bitnami/mongodb'
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGODB_USERNAME=daffy
+      - MONGODB_PASSWORD=pass
+      - MONGODB_DATABASE=jp
+    volumes:
+      - 'mongodb_data:/bitnami/mongodb'
+
+volumes:
+  mongodb_data:
+    driver: local
