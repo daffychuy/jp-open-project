@@ -1,9 +1,9 @@
 import * as jp from "wanakana";
 
 const search = () => {
-  console.log(jp);
+	console.log(jp);
 };
 
 module.exports = {
-  search,
+	search,
 };

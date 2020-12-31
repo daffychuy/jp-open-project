@@ -6,7 +6,7 @@ router.use("/search", require("./search"));
 
 /* GET home page. */
 router.get("/", function (req, res) {
-  res.render("index", { title: "Express" });
+	res.render("index", { title: "Express" });
 });
 
 export default router;

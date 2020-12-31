@@ -29,7 +29,7 @@
       "prettier --write"
     ],
     "*.js": [
-      "./node_modules/.bin/eslint --ignore-path .gitignore . --fix"
+      "./node_modules/.bin/eslint . --fix"
     ]
   },
   "homepage": "https://github.com/daffychuy/jp-open-project#readme",
