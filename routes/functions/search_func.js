@@ -1,5 +1,9 @@
-// import jp from 'wanakana';
+import * as jp from "wanakana";
 
-// const search = (req, handler) => {
+const search = () => {
+  console.log(jp);
+};
 
-// }
+module.exports = {
+  search,
+};

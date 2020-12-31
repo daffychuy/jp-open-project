@@ -4,9 +4,11 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js",
-    "dev": "nodemon app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "npm run build && node dist/app.js",
+    "dev": "nodemon --exec babel-node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "transpile": "babel ./app.js --out-dir dist-server",
+    "build": "rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log --copy-files"
   },
   "repository": {
     "type": "git",
@@ -36,9 +38,15 @@
     "express": "^4.17.1",
     "http-errors": "^1.8.0",
     "morgan": "^1.10.0",
+    "npm-run-all": "^4.1.5",
+    "rimraf": "^3.0.2",
     "wanakana": "^4.0.2"
   },
   "devDependencies": {
+    "@babel/cli": "^7.12.10",
+    "@babel/core": "^7.12.10",
+    "@babel/node": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
     "eslint": "^7.16.0",
     "eslint-config-standard": "^16.0.2",
     "eslint-plugin-import": "^2.22.1",

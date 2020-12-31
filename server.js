@@ -1,10 +1,10 @@
-const createError = require("http-errors");
-const express = require("express");
+import createError from "http-errors";
+import express, { json, urlencoded } from "express";
 // const path = require('path');
-const cookieParser = require("cookie-parser");
-const logger = require("morgan");
+import cookieParser from "cookie-parser";
+import logger from "morgan";
 
-const indexRouter = require("./routes/index");
+import indexRouter from "./routes/index";
 
 const app = express();
 
@@ -13,8 +13,8 @@ const app = express();
 // app.set('view engine', 'jade');
 
 app.use(logger("dev"));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(json());
+app.use(urlencoded({ extended: false }));
 app.use(cookieParser());
 // app.use(express.static(path.join(__dirname, 'public')));
 
@@ -22,18 +22,18 @@ app.use("/api/v1", indexRouter);
 
 // catch 404 and forward to error handler
 app.use(function (next) {
-	next(createError(404));
+  next(createError(404));
 });
 
 // error handler
 app.use(function (err, req, res) {
-	// set locals, only providing error in development
-	res.locals.message = err.message;
-	res.locals.error = req.app.get("env") === "development" ? err : {};
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get("env") === "development" ? err : {};
 
-	// render the error page
-	res.status(err.status || 500);
-	res.render("error");
+  // render the error page
+  res.status(err.status || 500);
+  res.render("error");
 });
 
-module.exports = app;
+export default app;
