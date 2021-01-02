@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "npm run build && node dist/app.js",
-    "dev": "nodemon --exec babel-node app.js --trace-warnings",
+    "dev": "nodemon --exec babel-node app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "transpile": "babel ./app.js --out-dir dist-server",
     "build": "rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log --copy-files"
