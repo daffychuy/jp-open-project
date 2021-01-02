@@ -21,16 +21,11 @@ const search = async (req, res) => {
 	if (jp.isJapanese(hiragana)) {
 		if (jp.isHiragana(hiragana)) {
 			Promise.all([
-				JMDict.find({
-					"Japanese.kana": { $regex: `^${hiragana}$`, $options: "m" },
-				}).sort({
+				JMDict.find({ "Japanese.kana": { $regex: `^${hiragana}$`, $options: "m" } }).sort({
 					"Japanese.kana": "asc",
 				}),
 				JMDict.find({
-					"Japanese.kana": {
-						$regex: `^${hiragana}.+$`,
-						$options: "m",
-					},
+					"Japanese.kana": { $regex: `^${hiragana}.+$`, $options: "m" },
 					"Japanese.kana_common": true,
 				})
 					.sort({ "Japanese.kana": "asc" })
@@ -44,16 +39,10 @@ const search = async (req, res) => {
 				} else {
 					// Need to process slug here
 					for (let i of res1) {
-						i.slug =
-							typeof i.Japanese[0].kanji !== "undefined"
-								? i.Japanese[0].kanji
-								: i.Japanese[0].kana;
+						i.slug = typeof i.Japanese[0].kanji !== "undefined" ? i.Japanese[0].kanji : i.Japanese[0].kana;
 					}
 					for (let i of res2) {
-						i.slug =
-							typeof i.Japanese[0].kanji !== "undefined"
-								? i.Japanese[0].kanji
-								: i.Japanese[0].kana;
+						i.slug = typeof i.Japanese[0].kanji !== "undefined" ? i.Japanese[0].kanji : i.Japanese[0].kana;
 					}
 					res2.sort(function (a, b) {
 						// ASC  -> a.length - b.length
@@ -79,64 +68,56 @@ const format_related = async (datas, query, source) => {
 
 		for (let jap of data.Japanese) {
 			switch (source) {
-				case "kana":
-					if (!jap.kana) break;
-					if (
-						jap.kana.includes(query) ||
-						jap.kana.includes(jp.toKatakana(query))
-					) {
-						temp.Japanese.push(jap);
-						if (jap.kanji_common || jap.kana_common)
-							temp.is_common = true;
-						delete jap.kanji_common;
-						delete jap.kana_common;
-						word.push(jap.kana);
-					}
-					break;
-				case "kanji":
-					if (!jap.kanji) break;
-					if (jap.kanji.includes(query)) {
-						temp.Japanese.push(jap);
-						if (jap.kanji_common || jap.kana_common)
-							temp.is_common = true;
-						delete jap.kanji_common;
-						delete jap.kana_common;
-						word.push(jap.kanji);
-					}
-					break;
-				default:
-					break;
+			case "kana":
+				if (!jap.kana) break;
+				if (jap.kana.includes(query) || jap.kana.includes(jp.toKatakana(query))) {
+					temp.Japanese.push(jap);
+					if (jap.kanji_common || jap.kana_common) temp.is_common = true;
+					delete jap.kanji_common;
+					delete jap.kana_common;
+					word.push(jap.kana);
+				}
+				break;
+			case "kanji":
+				if (!jap.kanji) break;
+				if (jap.kanji.includes(query)) {
+					temp.Japanese.push(jap);
+					if (jap.kanji_common || jap.kana_common) temp.is_common = true;
+					delete jap.kanji_common;
+					delete jap.kana_common;
+					word.push(jap.kanji);
+				}
+				break;
+			default:
+				break;
 			}
 		}
 		for (let sense of data.sense) {
-			if (
-				sense.appliesToKanji.includes("*") ||
-				sense.appliesToKana.includes("*")
-			) {
+			if (sense.appliesToKanji.includes("*") || sense.appliesToKana.includes("*")) {
 				delete sense.appliesToKana;
 				delete sense.appliesToKanji;
 				temp.sense.push(sense);
 			} else {
 				console.log(word);
 				switch (source) {
-					case "kana":
-						for (let kana of sense.appliesToKana) {
-							if (word.includes(kana)) {
-								delete sense.appliesToKana;
-								delete sense.appliesToKanji;
-								temp.sense.push(sense);
-							}
+				case "kana":
+					for (let kana of sense.appliesToKana) {
+						if (word.includes(kana)) {
+							delete sense.appliesToKana;
+							delete sense.appliesToKanji;
+							temp.sense.push(sense);
 						}
-						break;
-					case "kanji":
-						for (let kanji of sense.appliesToKanji) {
-							if (word.includes(kanji)) {
-								delete sense.appliesToKana;
-								delete sense.appliesToKanji;
-								temp.sense.push(sense);
-							}
+					}
+					break;
+				case "kanji":
+					for (let kanji of sense.appliesToKanji) {
+						if (word.includes(kanji)) {
+							delete sense.appliesToKana;
+							delete sense.appliesToKanji;
+							temp.sense.push(sense);
 						}
-						break;
+					}
+					break;
 				}
 			}
 		}
