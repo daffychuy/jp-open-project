@@ -21,7 +21,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "lint-staged --allow-empty"
     }
   },
   "lint-staged": {
@@ -29,7 +29,7 @@
       "prettier --write"
     ],
     "*.js": [
-      "./node_modules/.bin/eslint . --fix"
+      "./node_modules/.bin/eslint . --fix "
     ]
   },
   "homepage": "https://github.com/daffychuy/jp-open-project#readme",
