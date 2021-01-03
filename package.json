@@ -1,61 +1,68 @@
 {
-  "name": "jp-open-project",
-  "version": "0.0.1",
-  "description": "",
-  "main": "app.js",
-  "scripts": {
-    "start": "npm run build && node dist/app.js",
-    "dev": "nodemon --exec babel-node app.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "transpile": "babel ./app.js --out-dir dist-server",
-    "build": "rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log --copy-files"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/daffychuy/jp-open-project.git"
-  },
-  "author": "daffychuy",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/daffychuy/jp-open-project/issues"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
+    "name": "jp-open-project",
+    "version": "0.0.1",
+    "description": "",
+    "main": "app.js",
+    "scripts": {
+        "start": "npm run build && node dist/app.js",
+        "dev": "nodemon --exec babel-node app.js",
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "transpile": "babel ./app.js --out-dir dist-server",
+        "build": "rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log --copy-files"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/daffychuy/jp-open-project.git"
+    },
+    "author": "daffychuy",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/daffychuy/jp-open-project/issues"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "lint-staged"
+        }
+    },
+    "lint-staged": {
+        "*.{js,css,json,md}": [
+            "prettier --write"
+        ],
+        "*.js": [
+            "./node_modules/.bin/eslint . --fix "
+        ]
+    },
+    "homepage": "https://github.com/daffychuy/jp-open-project#readme",
+    "dependencies": {
+        "cookie-parser": "^1.4.5",
+        "dotenv": "^8.2.0",
+        "express": "^4.17.1",
+        "http-errors": "^1.8.0",
+        "kuroshiro": "^1.1.2",
+        "kuroshiro-analyzer-kuromoji": "^1.1.0",
+        "mongodb": "^3.6.3",
+        "mongoose": "^5.11.9",
+        "mongoose-unique-validator": "^2.0.3",
+        "morgan": "^1.10.0",
+        "npm-run-all": "^4.1.5",
+        "rimraf": "^3.0.2",
+        "validator": "^13.5.2",
+        "wanakana": "^4.0.2"
+    },
+    "devDependencies": {
+        "@babel/cli": "^7.12.10",
+        "@babel/core": "^7.12.10",
+        "@babel/node": "^7.12.10",
+        "@babel/preset-env": "^7.12.11",
+        "eslint": "^7.16.0",
+        "eslint-config-standard": "^16.0.2",
+        "eslint-plugin-import": "^2.22.1",
+        "eslint-plugin-node": "^11.1.0",
+        "eslint-plugin-promise": "^4.2.1",
+        "eslint-plugin-react": "^7.22.0",
+        "husky": "^4.3.6",
+        "lint-staged": "^10.5.3",
+        "nodemon": "^2.0.6",
+        "prettier": "^2.2.1"
     }
-  },
-  "lint-staged": {
-    "*.{js,css,json,md}": [
-      "prettier --write"
-    ],
-    "*.js": [
-      "./node_modules/.bin/eslint . --fix"
-    ]
-  },
-  "homepage": "https://github.com/daffychuy/jp-open-project#readme",
-  "dependencies": {
-    "cookie-parser": "^1.4.5",
-    "express": "^4.17.1",
-    "http-errors": "^1.8.0",
-    "morgan": "^1.10.0",
-    "npm-run-all": "^4.1.5",
-    "rimraf": "^3.0.2",
-    "wanakana": "^4.0.2"
-  },
-  "devDependencies": {
-    "@babel/cli": "^7.12.10",
-    "@babel/core": "^7.12.10",
-    "@babel/node": "^7.12.10",
-    "@babel/preset-env": "^7.12.11",
-    "eslint": "^7.16.0",
-    "eslint-config-standard": "^16.0.2",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-react": "^7.22.0",
-    "husky": "^4.3.6",
-    "lint-staged": "^10.5.3",
-    "nodemon": "^2.0.6",
-    "prettier": "^2.2.1"
-  }
 }
