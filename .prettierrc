@@ -4,5 +4,5 @@
   "semi": true,
   "poseWrap": "never",
   "useTabs": true,
-  "printWidth": 150,
+  "printWidth": 200,
 }
