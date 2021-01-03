@@ -32,17 +32,29 @@ const search = async (req, res) => {
 	}
 
 	// First convert everything to hiragana
+	// convert_to_jap(keyword);
 	let hiragana = jp.toHiragana(keyword);
 
 	// Case of when the whole thing is japanese
 	if (jp.isJapanese(hiragana)) {
+		// hiragana = await kuroshiro.convert(hiragana, { to: "hiragana" });
 		if (jp.isHiragana(hiragana)) {
 			return search_hiragana(hiragana, page, new_result, res);
 		} else if (jp.isKanji(hiragana)) {
 			return search_kanji(keyword, hiragana, new_result, res, page);
+		} else {
+			// Special case for things like polite form, mixed of kanji & hiragana
+			// or english words
+			console.log(jp.stripOkurigana(hiragana));
+			console.log(jp.toHiragana(jp.tokenize(hiragana)[0]));
+			res.status(200).send(new_result);
 		}
 	}
 };
+
+// const convert_to_jap = async (query) => {
+// 	//
+// };
 
 const search_hiragana = async (hiragana, page, new_result, res) => {
 	if (page > 1) {
@@ -74,7 +86,7 @@ const search_hiragana = async (hiragana, page, new_result, res) => {
 				});
 				new_result.data = res2;
 
-				res.status(GLOBAL.SUCCESS).send(new_result);
+				return res.status(GLOBAL.SUCCESS).send(new_result);
 			}
 		});
 	} else {
@@ -112,14 +124,14 @@ const search_hiragana = async (hiragana, page, new_result, res) => {
 				});
 				new_result.data = res1.concat(res2);
 
-				res.status(GLOBAL.SUCCESS).send(new_result);
+				return res.status(GLOBAL.SUCCESS).send(new_result);
 			}
 		});
 	}
 };
 
 const search_kanji = async (keyword, hiragana, new_result, res, page) => {
-	// const kanji_to_hiragana = await kuroshiro.convert(keyword, { to: "hiragana" });
+	const kanji_to_hiragana = await kuroshiro.convert(keyword, { to: "hiragana" });
 	if (page > 1) {
 		// TO_IMPLEMENT
 	} else {
@@ -137,8 +149,8 @@ const search_kanji = async (keyword, hiragana, new_result, res, page) => {
 				new_result.meta.next_page = true;
 				rest = rest.slice(0, 10);
 			}
-			let res1 = await format_related(singleResult, hiragana, "kanji");
-			let res2 = await format_related(rest, hiragana, "kanji");
+			let res1 = await format_related(singleResult, kanji_to_hiragana, "kanji");
+			let res2 = await format_related(rest, kanji_to_hiragana, "kanji");
 			if (!res1 && !res2) {
 				// Need to skip and give another kind of response
 				res.status(GLOBAL.SUCCESS).send();
@@ -157,7 +169,7 @@ const search_kanji = async (keyword, hiragana, new_result, res, page) => {
 				});
 				new_result = res1.concat(res2);
 
-				res.status(GLOBAL.SUCCESS).send(new_result);
+				return res.status(GLOBAL.SUCCESS).send(new_result);
 			}
 		});
 	}
@@ -173,28 +185,28 @@ const format_related = async (datas, query, source) => {
 
 		for (let jap of data.Japanese) {
 			switch (source) {
-				case "kana":
-					if (!jap.kana) break;
-					if (jap.kana.includes(query) || jap.kana.includes(jp.toKatakana(query))) {
-						temp.Japanese.push(jap);
-						if (jap.kanji_common || jap.kana_common) temp.is_common = true;
-						delete jap.kanji_common;
-						delete jap.kana_common;
-						word.push(jap.kana);
-					}
-					break;
-				case "kanji":
-					if (!jap.kanji) break;
-					if (jap.kanji.includes(query)) {
-						temp.Japanese.push(jap);
-						if (jap.kanji_common || jap.kana_common) temp.is_common = true;
-						delete jap.kanji_common;
-						delete jap.kana_common;
-						word.push(jap.kanji);
-					}
-					break;
-				default:
-					break;
+			case "kana":
+				if (!jap.kana) break;
+				if (jap.kana.includes(query) || jap.kana.includes(jp.toKatakana(query))) {
+					temp.Japanese.push(jap);
+					if (jap.kanji_common || jap.kana_common) temp.is_common = true;
+					delete jap.kanji_common;
+					delete jap.kana_common;
+					word.push(jap.kana);
+				}
+				break;
+			case "kanji":
+				if (!jap.kanji) break;
+				if (jap.kanji.includes(query)) {
+					temp.Japanese.push(jap);
+					if (jap.kanji_common || jap.kana_common) temp.is_common = true;
+					delete jap.kanji_common;
+					delete jap.kana_common;
+					word.push(jap.kanji);
+				}
+				break;
+			default:
+				break;
 			}
 		}
 		for (let sense of data.sense) {
@@ -203,26 +215,25 @@ const format_related = async (datas, query, source) => {
 				delete sense.appliesToKanji;
 				temp.sense.push(sense);
 			} else {
-				console.log(word);
 				switch (source) {
-					case "kana":
-						for (let kana of sense.appliesToKana) {
-							if (word.includes(kana)) {
-								delete sense.appliesToKana;
-								delete sense.appliesToKanji;
-								temp.sense.push(sense);
-							}
+				case "kana":
+					for (let kana of sense.appliesToKana) {
+						if (word.includes(kana)) {
+							delete sense.appliesToKana;
+							delete sense.appliesToKanji;
+							temp.sense.push(sense);
 						}
-						break;
-					case "kanji":
-						for (let kanji of sense.appliesToKanji) {
-							if (word.includes(kanji)) {
-								delete sense.appliesToKana;
-								delete sense.appliesToKanji;
-								temp.sense.push(sense);
-							}
+					}
+					break;
+				case "kanji":
+					for (let kanji of sense.appliesToKanji) {
+						if (word.includes(kanji)) {
+							delete sense.appliesToKana;
+							delete sense.appliesToKanji;
+							temp.sense.push(sense);
 						}
-						break;
+					}
+					break;
 				}
 			}
 		}

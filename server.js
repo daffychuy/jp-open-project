@@ -1,5 +1,4 @@
 require("./database");
-
 import createError from "http-errors";
 import express, { json, urlencoded } from "express";
 // const path = require('path');
