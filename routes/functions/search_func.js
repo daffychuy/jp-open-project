@@ -6,6 +6,7 @@ import * as validator from "validator";
 import JMDict from "../../models/JMDict";
 import v8 from "v8";
 import * as GLOBAL from "../../models/global";
+import * as recognizer from "../../middleware/recognize_verb";
 // Everything Kuroshiro related for translating Japanese to ___
 import Kuroshiro from "kuroshiro";
 import KuromojiAnalyzer from "kuroshiro-analyzer-kuromoji";
@@ -30,7 +31,7 @@ const search = async (req, res) => {
 		let temp_page = validator.escape(req.query.page);
 		if (validator.isInt(temp_page)) page = temp_page;
 	}
-
+	recognizer.recognize_verb(keyword);
 	// First convert everything to hiragana
 	let hiragana = jp.toHiragana(keyword);
 
