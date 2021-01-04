@@ -11,7 +11,7 @@ This is also a personal side project, so development depends on how busy I am wh
 Anyone who would use a dictionary for Japanese
 
 ## Reporting an issue or a suggestion
-Please go to the gitlab repo (On the bottom of this README) issue tab to submit an issue or suggestion
+Please open an issue in the issue tab on github
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
