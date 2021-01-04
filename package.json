@@ -6,7 +6,7 @@
 	"scripts": {
 		"start": "npm run build && node dist/app.js",
 		"dev": "nodemon --exec babel-node app.js",
-		"test": "echo \"Error: no test specified\" && exit 1",
+		"test": "jest",
 		"transpile": "babel ./app.js --out-dir dist-server",
 		"build": "rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log --copy-files"
 	},
@@ -61,6 +61,7 @@
 		"eslint-plugin-promise": "^4.2.1",
 		"eslint-plugin-react": "^7.22.0",
 		"husky": "^4.3.6",
+		"jest": "^26.6.3",
 		"jest-codemods": "^0.23.0",
 		"lint-staged": "^10.5.3",
 		"mocha": "^8.2.1",

@@ -36,12 +36,11 @@ function assertDerivationPathMatches() {
 		error += "Desired derivation path: " + JSON.stringify(desiredDerivationPathString.split(combinationCharacter));
 		error += "Actual derivation path: " + JSON.stringify(actualDerivationPathString.split(combinationCharacter));
 		console.log(error);
-		assert.fail(error);
 	}
 }
 
-describe("Grammar rules", function () {
-	it("Works for all grammar rules", function () {
+describe("Grammar rules", () => {
+	it("Works for all grammar rules", () => {
 		assertDerivationPathMatches("言ってもいいですよ", "言う", WordType.TE_FORM, WordType.MO_AFTER_TE, WordType.II, WordType.POLITE_DESU_VERB, WordType.YO_PARTICLE);
 		assertDerivationPathMatches("遊べそうじゃないね", "遊ぶ", WordType.POTENTIAL, WordType.MASU_STEM, WordType.APPEARANCE, WordType.DA, WordType.NEGATIVE_NAI_VERB, WordType.NE_PARTICLE);
 		assertDerivationPathMatches(
@@ -351,12 +350,12 @@ describe("Grammar rules", function () {
 		assertDerivationPathMatches("話してあるだろう", "話す", WordType.TE_FORM, WordType.ARU, WordType.DAROU);
 		assertDerivationPathMatches("話してあるでしょう", "話す", WordType.TE_FORM, WordType.ARU, WordType.DAROU, WordType.POLITE_DESHOU);
 		assertDerivationPathMatches("行った方が良くないよ", "行う", WordType.PLAIN_PAST, WordType.HOU_GA_II, WordType.NEGATIVE_NAI_VERB, WordType.YO_PARTICLE);
-	}).timeout(10000);
-	it("Fuzzy derivation works", function () {
+	});
+	it("Fuzzy derivation works", () => {
 		let results = Conjugator.unconjugate("仰いませんでしたじゃやらぱが", true);
 		assert(results.length > 0);
 	});
-	it("They all have valid word types", function () {
+	it("They all have valid word types", () => {
 		for (let rule of derivations) {
 			assert(rule.unconjugatedWordType, "No unconjugated word type for " + rule.unconjugatedEnding + " -> " + rule.conjugatedEnding);
 			assert(rule.conjugatedWordType, "No conjugated word type for " + rule.unconjugatedEnding + " -> " + rule.conjugatedEnding);
@@ -364,7 +363,7 @@ describe("Grammar rules", function () {
 			assert(rule.unconjugatedEnding !== undefined, "No unconjugated word type for " + rule.unconjugatedEnding + " -> " + rule.conjugatedEnding);
 		}
 	});
-	it("Respects maximum recursion depth", function () {
+	it("Respects maximum recursion depth", () => {
 		//assertDerivationPathMatches('撫でさせられぬよね', '撫でる', WordType.CAUSATIVE, WordType.POTENTIAL_PASSIVE, WordType.NEGATIVE_NAI_VERB, WordType.NU, WordType.YO_PARTICLE, WordType.NE_PARTICLE);
 		//let resultsWithMaximumRecursionDepth = Conjugator.unconjugate('撫でさせられぬよね', 3);
 		//assert(resultsWithMaximumRecursionDepth.length === 0);
