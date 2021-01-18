@@ -6,45 +6,40 @@ import json
 import time
 from datetime import datetime
 from tqdm import tqdm
+import re
 
 class verb:
     def __init__(self):
-        self.ichidan = ["Ichidan verb",
-        "Ichidan verb - kureru special class",
-        "Ichidan verb - zuru verb (alternative form of -jiru verbs)",
+        self.group = {
+            1: [],
+            2: [],
+            3: []
+        }
+        self.verb_tag = ['iv', 'v1', 'v1-s', 'v2a-s', 'v4h', 'v4r', 'v5aru', 'v5b', 'v5g', 'v5k', 'v5k-s', 'v5m', 'v5n', 'v5r', 'v5r-i', 'v5s', 'v5t', 'v5u', 'v5u-s', 'v5uru', 'vz', 'vi', 'vk', 'vn', 'vr', 'vs', 'vs-c', 'vs-s', 'vs-i', 'vt', 'v-unspec', 'v4k', 'v4g', 'v4s', 'v4t', 'v4n', 'v4b', 'v4m', 'v2k-k', 'v2g-k', 'v2t-k', 'v2d-k', 'v2h-k', 'v2b-k', 'v2m-k', 'v2y-k', 'v2r-k', 'v2k-s', 'v2g-s', 'v2s-s', 'v2z-s', 'v2t-s', 'v2d-s', 'v2n-s', 'v2h-s', 'v2b-s', 'v2m-s', 'v2y-s', 'v2r-s', 'v2w-s']
+        self.parse_potential_verb("JMdict Kanjidic files/JMdict/JMdict_header.xml")
+    
+    def parse_potential_verb(self, file_name):
+        with open(file_name, 'r') as f:
+            for line in f:
+                if re.search("^<!ENTITY .*>$", line):
+                    data = re.search("^<!ENTITY (.*) \"(.*)\">$", line).groups()
+                    if any(v in data[0] for v in self.verb_tag):
+                        if "irregular" in data[1].lower() or any(v2 == data[0] for v2 in ["vs-s", "vk", "vs", "vs-c"]):
+                            self.group[3].append(data[1])
+                        elif "ichidan" in data[1].lower():
+                            self.group[2].append(data[1])
+                        elif "godan" in data[1].lower():
+                            self.group[1].append(data[1])
+                        else:
+                            print(f"Group: {data[0]} | Meaning: {data[1]}")
 
-        ]
 
-        # <!ENTITY v2a-s "Nidan verb with 'u' ending (archaic)">
-        # <!ENTITY v4h "Yodan verb with `hu/fu' ending (archaic)">
-        # <!ENTITY v4r "Yodan verb with `ru' ending (archaic)">
-        # <!ENTITY v5aru "Godan verb - -aru special class">
-        # <!ENTITY v5b "Godan verb with `bu' ending">
-        # <!ENTITY v5g "Godan verb with `gu' ending">
-        # <!ENTITY v5k "Godan verb with `ku' ending">
-        # <!ENTITY v5k-s "Godan verb - Iku/Yuku special class">
-        # <!ENTITY v5m "Godan verb with `mu' ending">
-        # <!ENTITY v5n "Godan verb with `nu' ending">
-        # <!ENTITY v5r "Godan verb with `ru' ending">
-        # <!ENTITY v5r-i "Godan verb with `ru' ending (irregular verb)">
-        # <!ENTITY v5s "Godan verb with `su' ending">
-        # <!ENTITY v5t "Godan verb with `tsu' ending">
-        # <!ENTITY v5u "Godan verb with `u' ending">
-        # <!ENTITY v5u-s "Godan verb with `u' ending (special class)">
-        # <!ENTITY v5uru "Godan verb - Uru old class verb (old form of Eru)">
-        # <!ENTITY vi "intransitive verb">
-        # <!ENTITY vk "Kuru verb - special class">
-        # <!ENTITY vn "irregular nu verb">
-        # <!ENTITY vr "irregular ru verb, plain form ends with -ri">
-        # <!ENTITY vs "noun or participle which takes the aux. verb suru">
-        # <!ENTITY vs-c "su verb - precursor to the modern suru">
-        # <!ENTITY vs-s "suru verb - special class">
-        # <!ENTITY vs-i "suru verb - included">
 
 class conjugative:
     
     def __init__(self):
         self.jvfg = japaneseVerbFormGenerator.JapaneseVerbFormGenerator()
+        self.verb = verb()
 
     def generate_all_conjugative(self, kana, kanji):
         type_class = self.recognize_type(romkan.to_roma(kana))
@@ -167,11 +162,13 @@ class words:
             to_log = f"{datetime.now()} | Writing word kanji: {data['kanji']}, kana: {data['kana']}"
             tqdm.write(to_log)
             log.write(to_log + "\n")
+
             conj = self.conjugative.generate_all_conjugative(data['kana'], data['kanji'])
             if conj:
                 new_json['conjugative'].append(self.conjugative.generate_all_conjugative(data['kana'], data['kanji']))
         return new_json
 
 if __name__ == "__main__":
-    jap = words("JMdict Kanjidic files/JMdict/Finalize_JMdict_e.json", "JMdict Kanjidic files/JMdict/JMdict_with_conjugative.json")
-    jap.parse_file()
+    # jap = words("JMdict Kanjidic files/JMdict/Finalize_JMdict_e.json", "JMdict Kanjidic files/JMdict/JMdict_with_conjugative.json")
+    # jap.parse_file()
+    conjugative()

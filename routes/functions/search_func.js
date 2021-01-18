@@ -174,28 +174,28 @@ const format_related = async (datas, query, source) => {
 
 		for (let jap of data.Japanese) {
 			switch (source) {
-				case "kana":
-					if (!jap.kana) break;
-					if (jap.kana.includes(query) || jap.kana.includes(jp.toKatakana(query))) {
-						temp.Japanese.push(jap);
-						if (jap.kanji_common || jap.kana_common) temp.is_common = true;
-						delete jap.kanji_common;
-						delete jap.kana_common;
-						word.push(jap.kana);
-					}
-					break;
-				case "kanji":
-					if (!jap.kanji) break;
-					if (jap.kanji.includes(query)) {
-						temp.Japanese.push(jap);
-						if (jap.kanji_common || jap.kana_common) temp.is_common = true;
-						delete jap.kanji_common;
-						delete jap.kana_common;
-						word.push(jap.kanji);
-					}
-					break;
-				default:
-					break;
+			case "kana":
+				if (!jap.kana) break;
+				if (jap.kana.includes(query) || jap.kana.includes(jp.toKatakana(query))) {
+					temp.Japanese.push(jap);
+					if (jap.kanji_common || jap.kana_common) temp.is_common = true;
+					delete jap.kanji_common;
+					delete jap.kana_common;
+					word.push(jap.kana);
+				}
+				break;
+			case "kanji":
+				if (!jap.kanji) break;
+				if (jap.kanji.includes(query)) {
+					temp.Japanese.push(jap);
+					if (jap.kanji_common || jap.kana_common) temp.is_common = true;
+					delete jap.kanji_common;
+					delete jap.kana_common;
+					word.push(jap.kanji);
+				}
+				break;
+			default:
+				break;
 			}
 		}
 		for (let sense of data.sense) {
@@ -206,24 +206,24 @@ const format_related = async (datas, query, source) => {
 			} else {
 				console.log(word);
 				switch (source) {
-					case "kana":
-						for (let kana of sense.appliesToKana) {
-							if (word.includes(kana)) {
-								delete sense.appliesToKana;
-								delete sense.appliesToKanji;
-								temp.sense.push(sense);
-							}
+				case "kana":
+					for (let kana of sense.appliesToKana) {
+						if (word.includes(kana)) {
+							delete sense.appliesToKana;
+							delete sense.appliesToKanji;
+							temp.sense.push(sense);
 						}
-						break;
-					case "kanji":
-						for (let kanji of sense.appliesToKanji) {
-							if (word.includes(kanji)) {
-								delete sense.appliesToKana;
-								delete sense.appliesToKanji;
-								temp.sense.push(sense);
-							}
+					}
+					break;
+				case "kanji":
+					for (let kanji of sense.appliesToKanji) {
+						if (word.includes(kanji)) {
+							delete sense.appliesToKana;
+							delete sense.appliesToKanji;
+							temp.sense.push(sense);
 						}
-						break;
+					}
+					break;
 				}
 			}
 		}

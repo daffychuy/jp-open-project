@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 
 services:
   mongodb:
@@ -11,7 +11,20 @@ services:
       - MONGODB_DATABASE=jp
     volumes:
       - 'mongodb_data:/bitnami/mongodb'
+  app:
+    build: .
+    command: npm run dev
+    ports:
+      - 7771:7771
+    volumes:
+      - .:/app/
+      - nodemodules:/app/node_modules
+    links:
+      - mongodb
+    depends_on: 
+      - mongodb
 
 volumes:
   mongodb_data:
     driver: local
+  nodemodules: {}
