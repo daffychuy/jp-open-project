@@ -1,8 +1,0 @@
-{
-  "trailingComma": "all",
-  "tabWidth": 4,
-  "semi": true,
-  "poseWrap": "never",
-  "useTabs": true,
-  "printWidth": 200,
-}
