@@ -6,5 +6,6 @@ import (
 )
 
 func GetWord(router *gin.RouterGroup) {
+	// /api/search route
 	router.GET("/", controllers.SearchWord)
 }

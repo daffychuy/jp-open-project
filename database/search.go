@@ -13,7 +13,7 @@ func GetWords(word string) {
 
 	cur, err := middleware.Collection.Find(
 		context.Background(),
-		bson.M{"Japanese.kana": word})
+		bson.M{"Japanese.kanji": word})
 
 	if err != nil {
 		log.Fatal(err)
