@@ -28,5 +28,6 @@ func SearchWord(c *gin.Context) {
 		fmt.Printf("%s\t%v\n", token.Surface, features)
 	}
 	fmt.Println(word)
-	database.GetWords(word)
+
+	c.JSON(200, database.GetWords(word))
 }
