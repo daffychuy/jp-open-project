@@ -13,9 +13,10 @@ import (
 func SearchWord(c *gin.Context) {
 	word := c.Query("word")
 	if word == "" {
-		c.AbortWithStatus(404)
-		return
+		c.JSON(200, "")
 	}
+
+	// Tokenize the word first using IPA
 	t, err := tokenizer.New(ipa.Dict(), tokenizer.OmitBosEos())
 	if err != nil {
 		c.AbortWithStatus(500)
@@ -23,11 +24,13 @@ func SearchWord(c *gin.Context) {
 	}
 
 	tokens := t.Tokenize(word)
+	fmt.Println(tokens[0].Pronunciation())
 	for _, token := range tokens {
 		features := strings.Join(token.Features(), ",")
 		fmt.Printf("%s\t%v\n", token.Surface, features)
 	}
 	fmt.Println(word)
 
+	// Return data
 	c.JSON(200, database.GetWords(word))
 }

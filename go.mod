@@ -8,6 +8,8 @@ require (
 	github.com/creack/pty v1.1.13 // indirect
 	github.com/fatih/color v1.12.0 // indirect
 	github.com/gin-gonic/gin v1.7.2
+	github.com/gojp/japanese v0.0.0-20191004000405-f32ec16f5b31 // indirect
+	github.com/gojp/kana v0.1.0 // indirect
 	github.com/ikawaha/kagome-dict/ipa v1.0.3
 	github.com/ikawaha/kagome-dict/uni v1.1.2 // indirect
 	github.com/ikawaha/kagome/v2 v2.5.0

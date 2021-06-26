@@ -2,7 +2,6 @@ package database
 
 import (
 	"context"
-	"fmt"
 	"log"
 
 	"github.com/daffychuy/jp-open-project/middleware"
@@ -18,17 +17,6 @@ func GetWords(word string) []primitive.M {
 
 	if err != nil {
 		log.Fatal(err)
-	}
-
-	for cur.Next(context.Background()) {
-		var result bson.M
-		e := cur.Decode(&result)
-		if e != nil {
-			log.Fatal(e)
-		}
-		fmt.Println(e)
-		fmt.Println(result)
-
 	}
 
 	var data []bson.M

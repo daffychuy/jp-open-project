@@ -11,7 +11,6 @@ services:
       - MONGODB_DATABASE=jp
     volumes:
       - 'mongodb_data:/bitnami/mongodb'
-
   mongoClient:
     image: mongo
     container_name: mongoClient
@@ -23,6 +22,15 @@ services:
       - /scripts/db.sh
     depends_on:
       - mongodb
+  api:
+    build: .
+    volumes: 
+      - ./:/app
+    command: air
+    depends_on: 
+      - mongodb
+    ports:
+      - 8080:8080
 volumes:
   mongodb_data:
     driver: local
