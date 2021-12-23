@@ -4,6 +4,10 @@ github.com/aws/aws-sdk-go v1.34.28/go.mod h1:H7NKnBqNVzoTJpGfLrQkkD+ytBA93eiDYi/
 github.com/cosmtrek/air v1.27.3/go.mod h1:vrGZm+zmL5htsEr6YjqLXyjSoelgDQIl/DuOtsWVLeU=
 github.com/creack/pty v1.1.11/go.mod h1:oKZEueFk5CKHvIhNR5MUki03XCEU+Q6VDXinZuGJ33E=
 github.com/creack/pty v1.1.13/go.mod h1:MOBLtS5ELjhRRrroQr9kyvTxUAFNvYEK993ew/Vr4O4=
+github.com/daffychuy/japanese v0.0.0-20211026041247-2a3dc41fe26f h1:FGu13XHSlHfhWRSayUS/QS/sPDp+tZt0KfhKPRcSwzE=
+github.com/daffychuy/japanese v0.0.0-20211026041247-2a3dc41fe26f/go.mod h1:eJfwvYFf8PecHGUDRjvjgkwEhh96iTzeNpaio3UDq8I=
+github.com/daffychuy/japanese v0.0.0-20211223031020-0f1786a5235a h1:4PM0YnvqBlGXJ8Rxrk4jXqBOV/05B6rIUMCi/3zRuSI=
+github.com/daffychuy/japanese v0.0.0-20211223031020-0f1786a5235a/go.mod h1:eJfwvYFf8PecHGUDRjvjgkwEhh96iTzeNpaio3UDq8I=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=

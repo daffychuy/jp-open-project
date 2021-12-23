@@ -1,36 +1,36 @@
 version: '2'
 
 services:
-  mongodb:
-    image: 'docker.io/bitnami/mongodb'
-    ports:
-      - "27017:27017"
-    environment:
-      - MONGODB_USERNAME=daffy
-      - MONGODB_PASSWORD=pass
-      - MONGODB_DATABASE=jp
-    volumes:
-      - 'mongodb_data:/bitnami/mongodb'
-  mongoClient:
-    image: mongo
-    container_name: mongoClient
-    links:
-      - mongodb
-    volumes:
-      - ./scripts:/scripts
-    command: 
-      - /scripts/db.sh
-    depends_on:
-      - mongodb
+  # mongodb:
+  #   image: 'docker.io/bitnami/mongodb'
+  #   ports:
+  #     - "27017:27017"
+  #   environment:
+  #     - MONGODB_USERNAME=daffy
+  #     - MONGODB_PASSWORD=pass
+  #     - MONGODB_DATABASE=jp
+  #   volumes:
+  #     - 'mongodb_data:/bitnami/mongodb'
+  # mongoClient:
+  #   image: mongo
+  #   container_name: mongoClient
+  #   links:
+  #     - mongodb
+  #   volumes:
+  #     - ./scripts:/scripts
+  #   command: 
+  #     - /scripts/db.sh
+  #   depends_on:
+  #     - mongodb
   api:
     build: .
     volumes: 
       - ./:/app
     command: air
-    depends_on: 
-      - mongodb
+    # depends_on: 
+    #   - mongodb
     ports:
       - 8080:8080
-volumes:
-  mongodb_data:
-    driver: local
+# volumes:
+#   mongodb_data:
+#     driver: local

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/daffychuy/jp-open-project/database"
+	jp "github.com/daffychuy/japanese"
 	"github.com/gin-gonic/gin"
 	"github.com/ikawaha/kagome-dict/ipa"
 	"github.com/ikawaha/kagome/v2/tokenizer"
@@ -31,6 +31,10 @@ func SearchWord(c *gin.Context) {
 	}
 	fmt.Println(word)
 
+	godan, ichiban := jp.DictionaryForm(word)
+	fmt.Println(godan)
+	fmt.Println(ichiban)
+
 	// Return data
-	c.JSON(200, database.GetWords(word))
+	// c.JSON(200, database.GetWords(word))
 }
